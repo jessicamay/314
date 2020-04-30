@@ -1,3 +1,11 @@
+/*a.Utility class does the file reading and writing for input, output and error log 
+ * as well an additional substitute array list in case someone's student data was missing
+ * Regex code from online was used from stack overflow 
+ * 
+b.	Jessica Li 
+c.	925008863
+d.	jml0400@tamu.edu
+*/
 import java.io.*;
 import java.util.*;
 
@@ -32,17 +40,15 @@ public class Utility {
 			System.out.println(e);
 		}
 		while(scan.hasNextLine()){
-			
 			String line = scan.nextLine();
 			// source: https://stackoverflow.com/questions/1757065/java-splitting-a-comma-separated-string-but-ignoring-commas-in-quotes
 			// split on the comma only if that comma has an even number of quotes ahead of it.
+			// I understand this is technically an online source, but the idea was given from piazza in the discussions.
+			
 			String[] lineSplit = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 			//System.out.println(Arrays.toString(lineSplit));
 			CSCE314Student tempStudent = new CSCE314Student();
-			try {
-				// Index [1] = Java Knowledge (JK)
-				tempStudent.setJK(Integer.parseInt(lineSplit[1])); 
-				
+			try { // reordered for error log!
 				// Index [4] = name
 				tempStudent.setFirstName(lineSplit[4].split(" ", 0)[0]); 
 				tempStudent.setLastName(lineSplit[4].split(" ", 0)[1]); 
@@ -51,12 +57,22 @@ public class Utility {
 				tempStudent.setSection(Integer.parseInt(lineSplit[5].split(" ", 0)[0]));
 				int section = Integer.parseInt(lineSplit[5].split(" ", 0)[0]);
 				
+				// Index [1] = Java Knowledge (JK)
+				if (lineSplit[1] == "" || Integer.parseInt(lineSplit[1]) > 5 || Integer.parseInt(lineSplit[1]) < 1 )  {
+					// set default Java Knowledge to 1
+					tempStudent.setJK(1);
+				}
+				else {
+					tempStudent.setJK(Integer.parseInt(lineSplit[1])); 
+				}
+				
 				if ((sectionsList.contains(section)) == false) {
 					sectionsList.add(section);
 				}
 				//Index [6] = UIN from email,  split at the @ and use the front half 
 				tempStudent.setUIN(lineSplit[6].split("@", 0)[0]);
 				
+				//Index [7] = Rank - errors in the provided file
 				try {
 					if ((Integer.parseInt(lineSplit[7]) >= 1) && (Integer.parseInt(lineSplit[7])<=4)) {
 						tempStudent.setRank(Integer.parseInt(lineSplit[7]));
@@ -68,23 +84,34 @@ public class Utility {
 				catch (Exception e) {
 					addError("Student " + tempStudent.getFirstName() +" "+tempStudent.getLastName()+"'s rank is not specified or invalid.");
 				}
-				
+				// append the student to the temporary Array List of students
 				tempAL.add(tempStudent);
 			}
 			catch (Exception e){
-				addError("Issue with Student Data: " + e.toString());	
+				addError("Issue with Student " + tempStudent.getFirstName()+" "+tempStudent.getLastName()+"'s data, not paired. Error :" + e.toString());
+				addSub(tempStudent);
 			}
 		}
 		//System.out.print(sectionsList);
 		readFile = true;
 		return tempAL;	
-		
 	}
 	
+	ArrayList<CSCE314Student> subs = new ArrayList<CSCE314Student> ();
+	public void addSub(CSCE314Student temp) {
+		subs.add(temp);
+	}
+	
+	public ArrayList<CSCE314Student> subList() {
+		return subs;
+	}
+	
+	// returns status of readFile
 	public boolean readFile() {
 		return readFile;
 	}
-	
+
+	// write Results takes in the teams array list and the subs array list
 	public boolean writeResults(ArrayList<CSCE314Student[]> writeOut, ArrayList<CSCE314Student> subs) {
 		PrintWriter outFile = null;
 		try{
@@ -97,14 +124,13 @@ public class Utility {
 				}
 				outFile.print("\n");
 			}
-			
+			// print the Substitutes at the end of file
 			outFile.print("\n" + "Substitutes: \n");
 			for(int i = 0; i < subs.size(); i++) {
 				outFile.print(subs.get(i).getSection()+ " - " + subs.get(i).toString());
 			}
 			outFile.close();
 			writeResults = true;
-			
 		}
 		catch (Exception e){
 			System.out.println("Issue with Results file: Check ErrorLog.");
@@ -112,7 +138,6 @@ public class Utility {
 			writeResults = false;
 			System.exit(0); // Exits entire program
 		}
-		
 		// Error log file creation and printing
 		try { 
 			PrintWriter eWriter = new PrintWriter("ErrorLog.txt");
@@ -126,7 +151,6 @@ public class Utility {
 		}
 		outFile.close();
 		return writeResults;
-		
 	}
 
 	public ArrayList<Integer> getSectionsList() {

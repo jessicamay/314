@@ -1,4 +1,8 @@
-
+/*a.Person class is the parent class.  It contains the first and last name plus their respective setters/getters
+b.	Jessica Li 
+c.	925008863
+d.	jml0400@tamu.edu
+*/
 public abstract class Person {
 	String firstName;
 	String lastName;
@@ -21,8 +25,7 @@ public abstract class Person {
 	}
 	
 	// toString function for name printing
-	public String name() { 
+	public String toString() { 
 		return getFirstName() +" "+ getLastName();
 	}
-
 }

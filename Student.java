@@ -1,7 +1,8 @@
-
-//child class of the parent class Person
-//person is a student 
-
+/*a.Student class is a child class inherited from the parent Person Class. It contains the UIN, rank and email of person
+b.	Jessica Li 
+c.	925008863
+d.	jml0400@tamu.edu
+*/
 public class Student extends Person {
 	String UIN;
 	Rank rank;
@@ -44,7 +45,8 @@ public class Student extends Person {
 		}
 		else {
 			//shouldn't happen because of try catch in utility but insurance!
-			System.out.println("Error with setting rank");
+			//default = freshman
+			rank = Rank.Freshman;
 		}
 	}
 	
@@ -55,8 +57,9 @@ public class Student extends Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public String toString() {
-		return 
+		return super.getFirstName() + " " + super.getLastName() + ", Rank: " + getRank().toString() + ", UIN: " + getUIN();
 	}
 	
 	
