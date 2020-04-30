@@ -21,7 +21,7 @@ public abstract class Person {
 	}
 	
 	// toString function for name printing
-	public String printName() { 
+	public String name() { 
 		return getFirstName() +" "+ getLastName();
 	}
 

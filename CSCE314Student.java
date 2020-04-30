@@ -22,4 +22,7 @@ public class CSCE314Student extends Student {
 	public void setSection(int sect) {
 		section = sect;
 	}
+	public String toString() { 
+		return String.format("%-25s", this.getFirstName() + " " + this.getLastName() + " (" + Integer.toString(JavaKnowledge) + ") "); 
+	}
 }

@@ -8,6 +8,7 @@ public class Student extends Person {
 	String email;
 	
 	public Student() {
+		super();
 		UIN = "";
 		rank = Rank.Senior;
 	}
@@ -42,7 +43,8 @@ public class Student extends Person {
 			rank = Rank.Senior; 
 		}
 		else {
-			System.out.println("Error with Rank");
+			//shouldn't happen because of try catch in utility but insurance!
+			System.out.println("Error with setting rank");
 		}
 	}
 	
@@ -53,9 +55,8 @@ public class Student extends Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 	public String toString() {
-		return UIN + this.toString();
+		return 
 	}
 	
 	
