@@ -1,0 +1,6 @@
+Student Donte Russo's rank is invalid rank integer.
+Student Madiha Blundell's rank is invalid rank integer.
+Student Ruairi Martin's rank is invalid rank integer.
+Issue with Student Beyonce Pena's data, not paired. Error :java.lang.NumberFormatException: For input string: ""
+Issue with Student Macsen Crosby's data, not paired. Error :java.lang.NumberFormatException: For input string: ""
+Student Sohaib Orozco's rank is not specified or invalid.
